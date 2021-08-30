@@ -1,19 +1,65 @@
-// Memo: if input isnt changed saves a render
+// REACT HOOKS RULES
+// -Dont call inside loops
+// -Dont call inside conditions
+// -Dont call inside nested function
+// -Use on top of function
+// -Only call hooks from react function
+//
+//
+//
 // useState: gives array [start , setter]
+// useRef: used to refereance element or values (similar to getElementBy)
 // useLayoutEffect: used when you want to read mutated elements but before browser has ainted new layout
-// useRef: used to refereance element or values
 // useDebugValue:
-// useEffect(callback function, dependancy)
 // useEffect: (callback function used when state is changed, '[]' = only use when page is loaded, '[i]' = run when i is changed, not using [] runs the function everytime state is changed )
-
+// Prop Drilling: assing products from component to component
+//
+//
+//
+//
+//
+// JSX -> Virtual DOM -> DOM
+// --- LIFEcycle of components ----
+// BIRTH / MOUNT: Page Loaded (Comonent is initialized)
+// UPDATED: state or prop is changed
+// DEATH / UNMOUNT
+//
+// Memo: useMemo((function), [change]) SAVE RENDERS
+//
+//
+//
+//
 // Redux: global state management
 // Prompt: Used to prompt the user before navigating away from a page.
-// useReducer: hook that is for local state management
-// Route: sets up routes in a single bundle (spekrepair.com /shop)
-// Redirect: sets up user to be redirected to different route once action is done(Logging IN)
-// BrowserRouter: component to manage route, makes routing capable
-// Link: renders clickable link but no class or activeStyle
-// NavLink: reders clickable link but can add a className and activeStyle
+// useReducer: [state, dispatch(sends action)] (reducerFunction, initialState) hook that is for local state management
+// createContext : wrap the index or App with .Provider Then to use it inside a nested component useContext(yourInfoPassed)
+//
+//
+//
+//
+// ----- REACT_ROUTER ------
+// <Route>: sets up routes in a single bundle (spekrepair.com /shop)
+// <Redirect>: sets up user to be redirected to different route once action is done(Logging IN)
+// <BrowserRouter>: component to manage route, makes routing capable
+// <Link>: renders clickable link but no class or activeStyle
+// <NavLink>: reders clickable link but can add a className and activeStyle
+//
+// Example
+//
+// 	<BrowserRouter>
+//    <Route path='/home' exact>
+// 					<Component title="I am a prop"> I am a child </Component>
+// 			</Route>
+//
+// 			<NavLink
+// 				to="/about"
+// 				className="link"
+// 				exact >
+// 			</NavLink>
+// </BrowserRouter>
+//
+//
+//
 // mobx: easier to manage state globally
 
 import React, { useState, useRef, useEffect, useMemo, useReducer } from "react";
@@ -40,13 +86,6 @@ import BankHomePage from "./pages/BankHome";
 import Deposit from "./pages/deposit";
 import Withdraw from "./pages/withdraw";
 import { bindActionCreators } from "redux";
-
-// REACT HOOKS RULES
-// -Dont call inside loops
-// -Dont call inside conditions
-// -Dont call inside nested function
-// -Use on top of function
-// -Only call hooks from react function
 
 const makeGreen = (BaseComponent) => (props) => {
 	const addGreen = {
@@ -224,7 +263,7 @@ function Change() {
 	);
 }
 
-function FormRefs() {
+function Form() {
 	const nameRef = useRef();
 	const ageRef = useRef();
 	const marriedRef = useRef();
@@ -427,7 +466,7 @@ function Custom() {
 	);
 }
 
-function Log() {
+function App() {
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [age, setAge] = useState(null);
 	const [message, setMessage] = useState("I am being shared");
@@ -567,7 +606,7 @@ function reducerFunction(state, action) {
 	}
 }
 
-function App() {
+function Log() {
 	const [state, dispatch] = useReducer(reducerFunction, initState);
 
 	function plusOne() {
@@ -589,4 +628,4 @@ function App() {
 	);
 }
 
-export default App;
+export default App();
