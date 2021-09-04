@@ -7,12 +7,21 @@
 //
 //
 //
-// useState: gives array [start , setter]
-// useRef: used to refereance element or values (similar to getElementBy)
+// useState(InitialState): gives array [start , setter]
+// useRef(): used to refereance element or values (similar to getElementBy)
+// 							const NameRef = useRef();
+//        function doSomething(e){
+//											if(e.target.id === ParentElement ){
+//              NameRef.current.focus();
+//            }
+//									}
+// 							<input ref={NameRef} id='NameInput' />
+//
+//
 // useLayoutEffect: used when you want to read mutated elements but before browser has ainted new layout
 // useDebugValue:
 // useEffect: (callback function used when state is changed, '[]' = only use when page is loaded, '[i]' = run when i is changed, not using [] runs the function everytime state is changed )
-// Prop Drilling: assing products from component to component
+// Prop Drilling: assing props from component to component
 //
 //
 //
@@ -27,16 +36,6 @@
 // Memo: useMemo((function), [change]) SAVE RENDERS
 //
 //
-//
-//
-// Redux: global state management
-// Prompt: Used to prompt the user before navigating away from a page.
-// useReducer: [state, dispatch(sends action)] (reducerFunction, initialState) hook that is for local state management
-// createContext : wrap the index or App with .Provider Then to use it inside a nested component useContext(yourInfoPassed)
-//
-//
-//
-//
 // ----- REACT_ROUTER ------
 // <Route>: sets up routes in a single bundle (spekrepair.com /shop)
 // <Redirect>: sets up user to be redirected to different route once action is done(Logging IN)
@@ -47,7 +46,7 @@
 // Example
 //
 // 	<BrowserRouter>
-//    <Route path='/home' exact>
+//    <Route path='/about' exact>
 // 					<Component title="I am a prop"> I am a child </Component>
 // 			</Route>
 //
@@ -57,6 +56,105 @@
 // 				exact >
 // 			</NavLink>
 // </BrowserRouter>
+//
+//
+// ---------------------------------------
+// ---------------------------------------
+// --- REDUX : Global state management ---
+// ---------------------------------------
+// ---------------------------------------
+//
+// Component.js -> Action.js -> Dispatched -> Reducer.js ( Index.js )
+//
+// Redux: global state management
+// Prompt: Used to prompt the user before navigating away from a page.
+// useReducer: [state, dispatch(sends action)] (reducerFunction, initialState) hook that is for local state management
+// createContext : wrap the index or App with .Provider Then to use it inside a nested component useContext(yourInfoPassed)
+//
+//
+// -------------------
+// __REDUCER.JS_FILE__
+// -------------------
+// Never modify state directly :
+// const initialState = {
+// 	balance: 0,
+// 	loading: false,
+// };
+//
+// function reducer(state = initialState, action) {
+// 	switch (action.type) {
+// 		case "DEPOSIT":
+// 			return { balance: state.balance + action.payload, loading: false };
+// 		case "LOADING":
+// 			return { ...state, loading: true };
+// 		default:
+// 			return state;
+// 	}
+// }
+//
+// export default reducer;
+//
+// -----------------
+// -----------------
+// __INDEX.JS_FILE__
+// -----------------
+// -----------------
+//
+// import ReactDOM from "react-dom";
+// import reducer from "./store/reducer";
+// import { Provider } from "react-redux";
+// import { createStore } from "redux";
+//
+// // create store globally available
+// const store = createStore(reducer);
+//
+// ReactDOM.render(
+// 	<Provider store={store}>
+// 		<App />
+// 	</Provider>,
+// 	document.getElementById("root")
+// );
+//
+// ------------------
+// ------------------
+// __Component_FILE__
+// ------------------
+// ------------------
+//
+// import React from "react";
+// import { useSelector, useDispatch } from "react-redux";
+// import * as balanceActions from "../action/balanceAction";
+//
+// function Deposit() {
+// 	const balance = useSelector((state) => state.reducer.balance);
+// 	const dispatch = useDispatch();
+// 	const loading = useSelector((state) => state.reducer.loading);
+// 	function onDeposit() {
+// 		dispatch(balanceActions.deposit());
+// 	}
+//
+// 	return (
+// 		<div>
+// 			{loading ? <h1>Saving...</h1> : <h1>Balance: {balance}</h1>}
+// 			<button onClick={onDeposit}> Deposit </button>
+// 		</div>
+// 	);
+// }
+// export default Deposit;
+//
+
+// ------------------
+// ------------------
+// ---ACTIONS_FILE---
+// ------------------
+// ------------------
+//
+//
+// export function deposit() {
+// 	return { type: "DEPOSIT", payload: 10 };
+// }
+//
+//
 //
 //
 //
@@ -627,5 +725,26 @@ function Log() {
 		</div>
 	);
 }
+
+//
+//
+//
+// ---- SANDBOX ----
+function SandBox() {
+	const [name, setName] = useState("User");
+	const nameRef = useRef();
+	return (
+		<div>
+			<input ref="nameRef" placeholder="Enter Name"></input>
+			<p>Welcome {name}</p>
+			<button type="submit" onSubmit={setName(nameRef.current.value)}></button>
+		</div>
+	);
+}
+
+//
+//
+//
+//
 
 export default App();
